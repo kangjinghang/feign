@@ -29,7 +29,7 @@ public class SpringContract extends DeclarativeContract {
   static final String CONTENT_TYPE = "Content-Type";
 
   public SpringContract() {
-    registerClassAnnotation(RequestMapping.class, (requestMapping, data) -> {
+    registerClassAnnotation(RequestMapping.class, (requestMapping, data) -> { // 处理类上的 @RequestMapping
       appendMappings(data, requestMapping.value());
 
       if (requestMapping.method().length == 1)
@@ -39,7 +39,7 @@ public class SpringContract extends DeclarativeContract {
       handleConsumesAnnotation(data, requestMapping.consumes());
     });
 
-    registerMethodAnnotation(RequestMapping.class, (requestMapping, data) -> {
+    registerMethodAnnotation(RequestMapping.class, (requestMapping, data) -> { // 处理方法上的 @RequestMapping 注解，当然也支持衍生注解 @GetMapping @PostMapping 等处理
       appendMappings(data, mapping(requestMapping.path(), requestMapping.value()));
 
       if (requestMapping.method().length == 1)

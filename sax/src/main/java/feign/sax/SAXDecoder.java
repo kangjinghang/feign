@@ -47,7 +47,7 @@ import static feign.Util.resolveLastTypeParameter;
  *     .target(MyApi.class, "http://api");
  * </pre>
  */
-public class SAXDecoder implements Decoder {
+public class SAXDecoder implements Decoder {  // 基于 XML 格式的 Sax 库持久化转换协议
 
   private final Map<Type, ContentHandlerWithResult.Factory<?>> handlerFactories;
 

@@ -35,7 +35,7 @@ import static feign.ExceptionPropagationPolicy.NONE;
  * targeted} http apis.
  */
 public abstract class Feign {
-
+  // 建造者方法
   public static Builder builder() {
     return new Builder();
   }
@@ -93,7 +93,7 @@ public abstract class Feign {
    * for the specified {@code target}. You should cache this result.
    */
   public abstract <T> T newInstance(Target<T> target);
-
+  // 内部类：建造者类
   public static class Builder {
 
     private final List<RequestInterceptor> requestInterceptors =
@@ -290,7 +290,7 @@ public abstract class Feign {
     public <T> T target(Target<T> target) {
       return build().newInstance(target);
     }
-
+    // 建造方法
     public Feign build() {
       Client client = Capability.enrich(this.client, capabilities);
       Retryer retryer = Capability.enrich(this.retryer, capabilities);
@@ -305,14 +305,14 @@ public abstract class Feign {
       InvocationHandlerFactory invocationHandlerFactory =
           Capability.enrich(this.invocationHandlerFactory, capabilities);
       QueryMapEncoder queryMapEncoder = Capability.enrich(this.queryMapEncoder, capabilities);
-
+      // 方法处理器工厂的实例
       SynchronousMethodHandler.Factory synchronousMethodHandlerFactory =
           new SynchronousMethodHandler.Factory(client, retryer, requestInterceptors, logger,
               logLevel, dismiss404, closeAfterDecode, propagationPolicy, forceDecoding);
-      ParseHandlersByName handlersByName =
+      ParseHandlersByName handlersByName = // RPC 方法解析器
           new ParseHandlersByName(contract, options, encoder, decoder, queryMapEncoder,
               errorDecoder, synchronousMethodHandlerFactory);
-      return new ReflectiveFeign(handlersByName, invocationHandlerFactory, queryMapEncoder);
+      return new ReflectiveFeign(handlersByName, invocationHandlerFactory, queryMapEncoder); // 反射式 Feign 实例
     }
   }
 

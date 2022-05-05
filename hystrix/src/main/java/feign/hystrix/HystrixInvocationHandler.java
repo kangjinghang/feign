@@ -36,7 +36,7 @@ import static feign.Util.checkNotNull;
 final class HystrixInvocationHandler implements InvocationHandler {
 
   private final Target<?> target;
-  private final Map<Method, MethodHandler> dispatch;
+  private final Map<Method, MethodHandler> dispatch; // Key 为 RPC 方法的反射实例，value 为方法处理器
   private final FallbackFactory<?> fallbackFactory; // Nullable
   private final Map<Method, Method> fallbackMethodMap;
   private final Map<Method, Setter> setterMethodMap;
@@ -100,7 +100,7 @@ final class HystrixInvocationHandler implements InvocationHandler {
     } else if ("toString".equals(method.getName())) {
       return toString();
     }
-
+    // 创建一个 HystrixCommand 命令，对同步方法调用器进行封装
     HystrixCommand<Object> hystrixCommand =
         new HystrixCommand<Object>(setterMethodMap.get(method)) {
           @Override

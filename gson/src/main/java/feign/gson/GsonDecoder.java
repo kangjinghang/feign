@@ -26,7 +26,7 @@ import feign.codec.Decoder;
 import static feign.Util.UTF_8;
 import static feign.Util.ensureClosed;
 
-public class GsonDecoder implements Decoder {
+public class GsonDecoder implements Decoder {  // 基于 Gson 格式的持久化转换协议
 
   private final Gson gson;
 

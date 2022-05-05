@@ -44,10 +44,10 @@ public class ReflectiveFeign extends Feign {
    * to cache the result.
    */
   @SuppressWarnings("unchecked")
-  @Override
+  @Override // 创建 RPC 客户端动态代理实例
   public <T> T newInstance(Target<T> target) {
-    Map<String, MethodHandler> nameToHandler = targetToHandlersByName.apply(target);
-    Map<Method, MethodHandler> methodToHandler = new LinkedHashMap<Method, MethodHandler>();
+    Map<String, MethodHandler> nameToHandler = targetToHandlersByName.apply(target); // 方法解析：方法名和方法处理器的映射
+    Map<Method, MethodHandler> methodToHandler = new LinkedHashMap<Method, MethodHandler>(); // 方法反射对象和方法处理器的映射
     List<DefaultMethodHandler> defaultMethodHandlers = new LinkedList<DefaultMethodHandler>();
 
     for (Method method : target.type().getMethods()) {
@@ -61,14 +61,14 @@ public class ReflectiveFeign extends Feign {
         methodToHandler.put(method, nameToHandler.get(Feign.configKey(target.type(), method)));
       }
     }
-    InvocationHandler handler = factory.create(target, methodToHandler);
+    InvocationHandler handler = factory.create(target, methodToHandler); // 基于Proxy.newProxyInstance 为接口类创建动态实现，将所有的请求转换给 InvocationHandler 处理。即 FeignInvocationHandler
     T proxy = (T) Proxy.newProxyInstance(target.type().getClassLoader(),
         new Class<?>[] {target.type()}, handler);
 
     for (DefaultMethodHandler defaultMethodHandler : defaultMethodHandlers) {
       defaultMethodHandler.bindTo(proxy);
     }
-    return proxy;
+    return proxy; // 返回代理对象
   }
 
   static class FeignInvocationHandler implements InvocationHandler {
@@ -80,7 +80,7 @@ public class ReflectiveFeign extends Feign {
       this.target = checkNotNull(target, "target");
       this.dispatch = checkNotNull(dispatch, "dispatch for %s", target);
     }
-
+    // 当在自己的业务类中调用 feign 接口方法时，会调用此 invoke 方法
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
       if ("equals".equals(method.getName())) {
@@ -97,7 +97,7 @@ public class ReflectiveFeign extends Feign {
         return toString();
       }
 
-      return dispatch.get(method).invoke(args);
+      return dispatch.get(method).invoke(args); // 返回一个 SynchronousMethodHandler 进行拦截处理
     }
 
     @Override

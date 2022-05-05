@@ -57,7 +57,7 @@ public interface Client {
    * @throws IOException on a network error connecting to {@link Request#url()}.
    */
   Response execute(Request request, Options options) throws IOException;
-
+  // 默认实现
   class Default implements Client {
 
     private final SSLSocketFactory sslContextFactory;
@@ -99,7 +99,7 @@ public interface Client {
       this.hostnameVerifier = hostnameVerifier;
       this.disableRequestBuffering = disableRequestBuffering;
     }
-
+    // 默认使用 HttpURLConnection 发起远程调用
     @Override
     public Response execute(Request request, Options options) throws IOException {
       HttpURLConnection connection = convertAndSend(request, options);

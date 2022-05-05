@@ -41,7 +41,7 @@ import feign.codec.Encoder;
  * The JAXBContextFactory should be reused across requests as it caches the created JAXB contexts.
  * </p>
  */
-public class JAXBEncoder implements Encoder {
+public class JAXBEncoder implements Encoder {  // 基于 XML 格式的 Jaxb 库持久化转换协议
 
   private final JAXBContextFactory jaxbContextFactory;
 

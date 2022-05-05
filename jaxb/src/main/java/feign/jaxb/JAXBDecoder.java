@@ -47,7 +47,7 @@ import org.xml.sax.SAXException;
  * The JAXBContextFactory should be reused across requests as it caches the created JAXB contexts.
  * </p>
  */
-public class JAXBDecoder implements Decoder {
+public class JAXBDecoder implements Decoder {  // 基于 XML 格式的 Jaxb 库持久化转换协议
 
   private final JAXBContextFactory jaxbContextFactory;
   private final boolean namespaceAware;

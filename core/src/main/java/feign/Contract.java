@@ -32,7 +32,7 @@ import static feign.Util.checkState;
 import static feign.Util.emptyToNull;
 
 /**
- * Defines what annotations and values are valid on interfaces.
+ * Defines what annotations and values are valid on interfaces. 协议规则类
  */
 public interface Contract {
 
@@ -237,7 +237,7 @@ public interface Contract {
       data.indexToName().put(i, names);
     }
   }
-
+  // Feign 默认的协议规则解析器。还有个 SpringMVCContract协议规则解析类，用于解析使用了Spring MVC 规则配置的方法
   class Default extends DeclarativeContract {
 
     static final Pattern REQUEST_LINE_PATTERN = Pattern.compile("^([A-Z]+)[ ]*(.*)$");
@@ -252,7 +252,7 @@ public interface Contract {
         data.template().headers(null); // to clear
         data.template().headers(headers);
       });
-      super.registerMethodAnnotation(RequestLine.class, (ann, data) -> {
+      super.registerMethodAnnotation(RequestLine.class, (ann, data) -> { // @RequestLine 注解处理逻辑
         final String requestLine = ann.value();
         checkState(emptyToNull(requestLine) != null,
             "RequestLine annotation was empty on method %s.", data.configKey());
@@ -270,7 +270,7 @@ public interface Contract {
         data.template()
             .collectionFormat(ann.collectionFormat());
       });
-      super.registerMethodAnnotation(Body.class, (ann, data) -> {
+      super.registerMethodAnnotation(Body.class, (ann, data) -> { // @Body 注解处理逻辑
         final String body = ann.value();
         checkState(emptyToNull(body) != null, "Body annotation was empty on method %s.",
             data.configKey());
@@ -280,13 +280,13 @@ public interface Contract {
           data.template().bodyTemplate(body);
         }
       });
-      super.registerMethodAnnotation(Headers.class, (header, data) -> {
+      super.registerMethodAnnotation(Headers.class, (header, data) -> { // @Headers 注解处理逻辑
         final String[] headersOnMethod = header.value();
         checkState(headersOnMethod.length > 0, "Headers annotation was empty on method %s.",
             data.configKey());
         data.template().headers(toMap(headersOnMethod));
       });
-      super.registerParameterAnnotation(Param.class, (paramAnnotation, data, paramIndex) -> {
+      super.registerParameterAnnotation(Param.class, (paramAnnotation, data, paramIndex) -> { // @Param	注解处理逻辑
         final String annotationName = paramAnnotation.value();
         final Parameter parameter = data.method().getParameters()[paramIndex];
         final String name;
@@ -306,12 +306,12 @@ public interface Contract {
           data.formParams().add(name);
         }
       });
-      super.registerParameterAnnotation(QueryMap.class, (queryMap, data, paramIndex) -> {
+      super.registerParameterAnnotation(QueryMap.class, (queryMap, data, paramIndex) -> {  // @QueryMap 注解处理逻辑
         checkState(data.queryMapIndex() == null,
             "QueryMap annotation was present on multiple parameters.");
         data.queryMapIndex(paramIndex);
       });
-      super.registerParameterAnnotation(HeaderMap.class, (queryMap, data, paramIndex) -> {
+      super.registerParameterAnnotation(HeaderMap.class, (queryMap, data, paramIndex) -> {  // @HeaderMap 注解处理逻辑
         checkState(data.headerMapIndex() == null,
             "HeaderMap annotation was present on multiple parameters.");
         data.headerMapIndex(paramIndex);

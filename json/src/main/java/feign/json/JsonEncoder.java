@@ -48,7 +48,7 @@ import static java.lang.String.format;
  *   github.create("openfeign", "feign", contributor);
  * </pre>
  */
-public class JsonEncoder implements Encoder {
+public class JsonEncoder implements Encoder { // 基于 Jackson 格式的持久化转换协议
 
   @Override
   public void encode(Object object, Type bodyType, RequestTemplate template)

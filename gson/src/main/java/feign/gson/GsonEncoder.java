@@ -20,7 +20,7 @@ import java.util.Collections;
 import feign.RequestTemplate;
 import feign.codec.Encoder;
 
-public class GsonEncoder implements Encoder {
+public class GsonEncoder implements Encoder { // 基于 Gson 格式的持久化转换协议
 
   private final Gson gson;
 

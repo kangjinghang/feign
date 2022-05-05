@@ -63,7 +63,7 @@ import static java.lang.String.format;
  * Session login(@Param(&quot;username&quot;) String username, @Param(&quot;password&quot;) String password);
  * </pre>
  */
-public interface Encoder {
+public interface Encoder { // 将 bean 转成 http 报文
   /** Type literal for {@code Map<String, ?>}, indicating the object to encode is a form. */
   Type MAP_STRING_WILDCARD = Util.MAP_STRING_WILDCARD;
 

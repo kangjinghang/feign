@@ -86,7 +86,7 @@ final class SynchronousMethodHandler implements MethodHandler {
     Retryer retryer = this.retryer.clone();
     while (true) {
       try {
-        return executeAndDecode(template, options);
+        return executeAndDecode(template, options); // 通过 RequestTemplate 生成 Request 请求对象，然后利用 Http Client(默认) 获取 response，来获取响应信息
       } catch (RetryableException e) {
         try {
           retryer.continueOrPropagate(e);
@@ -105,7 +105,7 @@ final class SynchronousMethodHandler implements MethodHandler {
       }
     }
   }
-
+  //  // 通过 RequestTemplate 生成 Request 请求对象，然后利用 Http Client(默认) 获取 response，来获取响应信息
   Object executeAndDecode(RequestTemplate template, Options options) throws Throwable {
     Request request = targetRequest(template);
 
@@ -116,7 +116,7 @@ final class SynchronousMethodHandler implements MethodHandler {
     Response response;
     long start = System.nanoTime();
     try {
-      response = client.execute(request, options);
+      response = client.execute(request, options); // 发起远程通信
       // ensure the request is set. TODO: remove in Feign 12
       response = response.toBuilder()
           .request(request)

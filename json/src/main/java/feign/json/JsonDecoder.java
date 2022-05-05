@@ -48,7 +48,7 @@ import static java.lang.String.format;
  *   System.out.println(contributors.getJSONObject(0).getString("login"));
  * </pre>
  */
-public class JsonDecoder implements Decoder {
+public class JsonDecoder implements Decoder { // 基于 Jackson 格式的持久化转换协议
 
   @Override
   public Object decode(Response response, Type type) throws IOException, DecodeException {
