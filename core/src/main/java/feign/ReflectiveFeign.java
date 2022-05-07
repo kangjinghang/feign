@@ -119,7 +119,7 @@ public class ReflectiveFeign extends Feign {
       return target.toString();
     }
   }
-
+  // 请求方法和路径解析器
   static final class ParseHandlersByName {
 
     private final Contract contract;
@@ -148,7 +148,7 @@ public class ReflectiveFeign extends Feign {
     }
 
     public Map<String, MethodHandler> apply(Target target) {
-      List<MethodMetadata> metadata = contract.parseAndValidateMetadata(target.type());
+      List<MethodMetadata> metadata = contract.parseAndValidateMetadata(target.type());  // 【核心方法】解析 @FeignClient 组件，Feign 自带的则解析自己的注解格式，Spring 提供了解析 MVC 注解的 SpringMvcContract
       Map<String, MethodHandler> result = new LinkedHashMap<String, MethodHandler>();
       for (MethodMetadata md : metadata) {
         BuildTemplateByResolvingArgs buildTemplate;

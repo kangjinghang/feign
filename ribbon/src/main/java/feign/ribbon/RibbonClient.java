@@ -77,7 +77,7 @@ public class RibbonClient implements Client {
       URI uriWithoutHost = cleanUrl(request.url(), clientName);
       LBClient.RibbonRequest ribbonRequest =
           new LBClient.RibbonRequest(delegate, request, uriWithoutHost);
-      return lbClient(clientName).executeWithLoadBalancer(ribbonRequest,
+      return lbClient(clientName).executeWithLoadBalancer(ribbonRequest, // 通过负载均衡客户端，执行负载均衡处理
           new FeignOptionsClientConfig(options)).toResponse();
     } catch (ClientException e) {
       propagateFirstIOException(e);
